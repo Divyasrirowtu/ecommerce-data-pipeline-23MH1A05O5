@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Data
+data/raw/
+data/staging/
+data/processed/
+
+# Logs
+logs/
+
+# Docker
+docker/postgres_data/
+
+# OS
+.DS_Store
+Thumbs.db
