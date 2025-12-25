@@ -210,3 +210,5 @@ pytest tests/ -v
 **Name:** Divya Sri Rowtu
 **Roll Number:** 23MH1A05O5
 **Email:** 23MH1A05O5@acoe.edu.in
+
+![CI](https://github.com/<your-username>/<your-repo-name>/actions/workflows/ci.yml/badge.svg)
