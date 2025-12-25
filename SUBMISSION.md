@@ -11,7 +11,7 @@
 ## GitHub Repository
 - Repository URL: https://github.com/Divyasrirowtu/ecommerce-data-pipeline-23MH1A05O5
 - Repository Status: Public
-- Total Commits: <check on GitHub>
+- Total Commits: 20
 
 ## Project Status
 - Phase 1: Completed
