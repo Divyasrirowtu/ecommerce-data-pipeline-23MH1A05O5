@@ -102,4 +102,22 @@ ecommerce-data-pipeline-23MH1A05O5/
 │
 ├─ venv/                  # Python virtual environment
 ├─ requirements.txt
-└─ README.md
+└─ README.
+
+## Project Architecture
+Raw Data → Staging → Production → Warehouse → Analytics → BI Dashboard
+
+## Technology Stack
+- Python (Faker, Pandas)
+- PostgreSQL
+- Docker
+- Pytest
+- Tableau / Power BI
+
+## Project Structure
+ecommerce-data-pipeline/
+├── scripts/
+├── sql/
+├── tests/
+├── dashboards/
+├── docs/
