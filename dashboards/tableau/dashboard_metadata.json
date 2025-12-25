@@ -1,0 +1,9 @@
+{
+    "bi_tool": "tableau",
+    "dashboard_name": "E-Commerce Analytics Dashboard",
+    "public_url": "https://public.tableau.com/views/E-Commerce Analytics Dashboard",
+    "pages": 4,
+    "visualizations": 16,
+    "data_source": "CSV extracts from warehouse schema",
+    "created_date": "2025-12-25"
+}
