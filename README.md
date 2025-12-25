@@ -1,123 +1,212 @@
-E-Commerce Data Pipeline Project
-
-Student Name: Rowtu Divya Sri Lakshmi
-Roll Number: 23MH1A05O5
-Submission Date: [Insert Date]
-
-Prerequisites
-
-Python 3.8+
-
-PostgreSQL 12+
-
-Docker & Docker Compose
-
-Git
-
-Tableau Public OR Power BI Desktop
-
-Installation & Setup
-
-Clone the repository
-
-git clone https://github.com/Divyasrirowtu/ecommerce-data-pipeline-23MH1A05O5.git
-cd ecommerce-data-pipeline-23MH1A05O5
-
-
-Create and activate Python virtual environment
-
-python -m venv venv
-.\venv\Scripts\Activate.ps1   # For PowerShell
-pip install -r requirements.txt
-
-
-Setup PostgreSQL (Docker recommended)
-
-docker pull postgres:15
-docker run --name postgres-db -e POSTGRES_PASSWORD=postgres123 -e POSTGRES_DB=ecommerce -p 5432:5432 -d postgres:15
-docker ps  # Verify container is running
-
-Phase 2: Data Generation & Ingestion
-2.1 Generate Data
-python scripts/data_generation/generate_data.py
-
-
-Generates realistic CSV files for: customers, products, orders, payments
-
-Stored in: data/raw/
-
-2.2 Ingest Data into Staging
-python scripts/ingestion/ingest_to_staging.py
-
-
-Loads CSV files into staging tables in PostgreSQL
-
-Updates: data/staging/ingestion_summary.json
-
-2.3 Transform & Load to Warehouse
-python scripts/transformation/load_to_warehouse.py
-
-
-Cleans, deduplicates, and transforms data from staging
-
-Loads into final warehouse tables for analytics
-
-Phase 3: Analytics / Reporting
-
-Query final tables for insights
-
-Example SQL:
-
-SELECT c.customer_id, c.first_name, COUNT(o.order_id) AS total_orders
-FROM customers c
-JOIN orders o ON c.customer_id = o.customer_id
-GROUP BY c.customer_id, c.first_name;
-
-
-Use Tableau Public or Power BI to visualize final tables.
-
-Database Details
-
-Host: localhost
-
-Port: 5432
-
-Database: ecommerce
-
-User: postgres
-
-Password: postgres123
-
-Folder Structure
-ecommerce-data-pipeline-23MH1A05O5/
-│
-├─ data/
-│   ├─ raw/               # Generated CSVs
-│   └─ staging/           # Ingestion summary
-│
-├─ scripts/
-│   ├─ data_generation/   # Generate data scripts
-│   ├─ ingestion/         # Load to staging scripts
-│   └─ transformation/    # Load from staging to warehouse
-│
-├─ venv/                  # Python virtual environment
-├─ requirements.txt
-└─ README.
+# E-Commerce Data Pipeline & Analytics Platform
 
 ## Project Architecture
-Raw Data → Staging → Production → Warehouse → Analytics → BI Dashboard
+
+```
+Raw CSV Data
+   │
+   ▼
+Staging Schema (PostgreSQL)
+   │  Data Quality Checks
+   ▼
+Production Schema (3NF)
+   │  Transformations & Enrichment
+   ▼
+Warehouse Schema (Star Schema)
+   │  Aggregations & Analytics
+   ▼
+Analytics Outputs (CSV)
+   │
+   ▼
+BI Dashboards (Tableau / Power BI)
+```
+
+---
 
 ## Technology Stack
-- Python (Faker, Pandas)
-- PostgreSQL
-- Docker
-- Pytest
-- Tableau / Power BI
+
+* **Data Generation:** Python, Faker
+* **Database:** PostgreSQL 15
+* **ETL / Transformations:** Python (Pandas, SQLAlchemy, psycopg2)
+* **Orchestration:** Python Scheduler
+* **Monitoring:** Custom Python + SQL
+* **BI & Visualization:** Tableau Public / Power BI Desktop
+* **Containerization:** Docker & Docker Compose
+* **Testing:** Pytest + Coverage
+* **Version Control:** Git & GitHub
+
+---
 
 ## Project Structure
+
+```
 ecommerce-data-pipeline/
-├── scripts/
-├── sql/
-├── tests/
+├── config/
+├── data/
+│   ├── raw/
+│   ├── staging/
+│   ├── processed/
 ├── dashboards/
+│   ├── screenshots/
+│   ├── tableau/
+│   └── powerbi/
 ├── docs/
+│   ├── architecture.md
+│   └── dashboard_guide.md
+├── logs/
+├── scripts/
+│   ├── data_generation/
+│   ├── ingestion/
+│   ├── transformation/
+│   ├── monitoring/
+│   ├── pipeline_orchestrator.py
+│   ├── scheduler.py
+│   └── cleanup_old_data.py
+├── sql/
+│   └── queries/
+├── tests/
+│   ├── test_data_generation.py
+│   ├── test_ingestion.py
+│   ├── test_transformation.py
+│   ├── test_quality_checks.py
+│   └── pytest.ini
+├── run_tests.sh
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## Setup Instructions
+
+1. Clone the repository
+
+```bash
+git clone <repo-url>
+cd ecommerce-data-pipeline
+```
+
+2. Create virtual environment
+
+```bash
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+```
+
+3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Start PostgreSQL using Docker
+
+```bash
+docker-compose up -d
+```
+
+---
+
+## Running the Pipeline
+
+### Full Pipeline Execution
+
+```bash
+python scripts/pipeline_orchestrator.py
+```
+
+### Individual Steps
+
+```bash
+python scripts/data_generation/generate_data.py
+python scripts/ingestion/ingest_to_staging.py
+python scripts/transformation/staging_to_production.py
+python scripts/transformation/load_warehouse.py
+python scripts/transformation/generate_analytics.py
+```
+
+---
+
+## Running Tests
+
+```bash
+bash run_tests.sh
+```
+
+OR
+
+```bash
+pytest tests/ -v
+```
+
+---
+
+## Dashboard Access
+
+* **Tableau Public URL:** (Add your published link)
+* **Power BI File:** `dashboards/powerbi/ecommerce_analytics.pbix`
+* **Screenshots:** `dashboards/screenshots/`
+
+---
+
+## Database Schemas
+
+### Staging Schema
+
+* staging.customers
+* staging.products
+* staging.transactions
+* staging.transaction_items
+
+### Production Schema
+
+* production.customers
+* production.products
+* production.transactions
+* production.transaction_items
+
+### Warehouse Schema
+
+* warehouse.dim_customers
+* warehouse.dim_products
+* warehouse.dim_date
+* warehouse.dim_payment_method
+* warehouse.fact_sales
+* warehouse.agg_daily_sales
+* warehouse.agg_product_performance
+* warehouse.agg_customer_metrics
+
+---
+
+## Key Insights from Analytics
+
+* Electronics category generates highest revenue
+* Revenue shows steady month-over-month growth
+* VIP customers contribute majority of total revenue
+* Digital payment methods dominate transactions
+
+---
+
+## Challenges & Solutions
+
+1. **Data quality issues** → Implemented automated quality checks
+2. **Duplicate data on reruns** → Ensured idempotent pipeline design
+3. **Pipeline failures** → Added retry logic with exponential backoff
+4. **Performance issues** → Introduced aggregation tables
+
+---
+
+## Future Enhancements
+
+* Real-time ingestion using Apache Kafka
+* Cloud deployment (AWS / GCP / Azure)
+* Machine learning models for demand forecasting
+* Real-time alerting and notifications
+
+---
+
+## Contact
+
+**Name:** Divya Sri Rowtu
+**Roll Number:** 23MH1A05O5
+**Email:** 23MH1A05O5@acoe.edu.in
